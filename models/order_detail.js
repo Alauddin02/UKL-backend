@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       coffe_id: DataTypes.INTEGER,
       quantity: DataTypes.INTEGER,
       price: DataTypes.DOUBLE,
+      total_akhir: DataTypes.DOUBLE,
     },
     {
       sequelize,

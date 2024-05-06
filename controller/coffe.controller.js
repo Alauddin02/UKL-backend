@@ -93,7 +93,9 @@ exports.updateCoffe = async (request, response) => {
           });
         }
       }
-      coffeData.coffe = request.file.filename;
+      coffeData.image = request.file.filename;
+      coffeData.createdAt = new Date();
+      coffeData.updatedAt = new Date();
     }
 
     coffemodel
