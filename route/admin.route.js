@@ -8,14 +8,16 @@ const adminController = require("../controller/admin.controller");
 
 const { authenticate } = require("../controller/auth.controller");
 
-app.get("/getUser", adminController.getAllUser);
+app.post("/auth", authenticate);
 
-app.post("/addAdmin", adminController.addUser);
+app.get("/", adminController.getAllUser);
 
-app.post("/find", adminController.findUser);
+app.get("/:id", adminController.getAdminById);
+
+app.post("/add", adminController.addUser);
 
 app.post("/Edit", adminController.updateUser);
 
-app.post("/auth", authenticate);
+
 
 module.exports = app;

@@ -1,5 +1,7 @@
 const coffemodel = require("../models/index").coffe;
 
+const auth = require("../middleware/auth")
+
 const path = require("path");
 
 const Op = require("sequelize").Op;
@@ -8,28 +10,39 @@ const fs = require("fs");
 
 exports.getCoffe = async (request, response) => {
   /** call findAll() to get all data */
-  let coffea = await coffemodel.findAll();
+  let coffe = await coffemodel.findAll();
   return response.json({
     success: true,
-    data: coffea,
+    data: coffe,
     message: `All users have been loaded`,
   });
 };
 
-exports.findCoffe = async (request, response) => {
-  let keyword = request.body.keyword;
+exports.getCoffeById = async (request, response) => {
+  const menuId = request.params.id;
 
-  let coffea = await coffemodel.findAll({
-    where: {
-      [Op.or]: [{ id: { [Op.substring]: keyword } }, { name: { [Op.substring]: keyword } }, { price: { [Op.substring]: keyword } }, { size: { [Op.substring]: keyword } }],
-    },
-  });
+  try {
+    const menu = await coffemodel.findOne({ where: { id: menuId } });
 
-  return response.json({
-    success: true,
-    data: coffea,
-    message: `All Users have been loaded`,
-  });
+    if (!menu) {
+      return response.status(404).json({
+        success: false,
+        message: `menu with ID ${menuId} not found`,
+      });
+    }
+
+    return response.json({
+      success: true,
+      data: menu,
+      message: `menu with ID ${menuId} has been loaded`,
+    });
+  } catch (error) {
+    console.error("Error fetching menu by ID:", error);
+    return response.status(500).json({
+      success: false,
+      message: "An error occurred while fetching menu by ID",
+    });
+  }
 };
 
 const upload = require("../controller/upload-image-coffe").single(`image`);

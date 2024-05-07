@@ -23,7 +23,7 @@ const authenticate = async (request, response) => {
       success: true,
       logged: true,
       message: "berhasil login",
-      tokenS: tkn,
+      token: tkn,
       data: dataUser,
     });
   }

@@ -25,5 +25,5 @@ const orderRoute = require("./route/order_list.route");
 app.use("/order", orderRoute);
 
 app.listen(PORT, () => {
-  console.log(`Server of tokobuku runs on port ${PORT}`);
+  console.log(`Server of coffe runs on port ${PORT}`);
 });

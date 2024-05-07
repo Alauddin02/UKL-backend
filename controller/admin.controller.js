@@ -3,7 +3,6 @@ const md5 = require("md5");
 const adminModel = require("../models/index").admin;
 
 // operation for load from databases
-const Op = require(`sequelize`).Op;
 
 exports.getAllUser = async (request, response) => {
   /** call findAll() to get all data */
@@ -15,20 +14,31 @@ exports.getAllUser = async (request, response) => {
   });
 };
 
-exports.findUser = async (request, response) => {
-  let keyword = request.params.key;
+exports.getAdminById = async (request, response) => {
+  const userId = request.params.id;
 
-  let users = await adminModel.findAll({
-    where: {
-      [Op.or]: [{ id: { [Op.substring]: keyword } }, { name: { [Op.substring]: keyword } }, { email: { [Op.substring]: keyword } }, { role: { [Op.substring]: keyword } }],
-    },
-  });
+  try {
+    const user = await adminModel.findOne({ where: { id: userId } });
 
-  return response.json({
-    success: true,
-    data: users,
-    message: `All Users have been loaded`,
-  });
+    if (!user) {
+      return response.status(404).json({
+        success: false,
+        message: `User with ID ${userId} not found`,
+      });
+    }
+
+    return response.json({
+      success: true,
+      data: user,
+      message: `User with ID ${userId} has been loaded`,
+    });
+  } catch (error) {
+    console.error("Error fetching user by ID:", error);
+    return response.status(500).json({
+      success: false,
+      message: "An error occurred while fetching user by ID",
+    });
+  }
 };
 
 exports.addUser = async (request, response) => {

@@ -10,7 +10,7 @@ const { authorize } = require("../controller/auth.controller");
 
 app.get("/", coffeController.getCoffe);
 
-app.post("coffe/", coffeController.findCoffe);
+app.get("/:id", coffeController.getCoffeById)
 
 app.post("/", authorize, coffeController.addCoffe);
 
