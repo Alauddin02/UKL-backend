@@ -4,7 +4,7 @@ const adminModel = require("../models/index").admin;
 
 const jwt = require("jsonwebtoken");
 
-const secret = "moklet";
+const secret = " ";
 
 const authenticate = async (request, response) => {
   let dataLogin = {
